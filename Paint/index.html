@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
+    <script src="Model/model.js" defer></script>
+    <script src="Controller/myMain.js" defer></script>
+
+    <title>PaintCanvas</title>
+</head>
+<body>
+
+<script>
+    const ws = new WebSocket('ws://localhost:3000/ws');
+
+    ws.onopen = () => {
+      console.log('onopen');
+    };
+
+    ws.onclose = () => {
+      console.log('onclose');
+    };
+
+    ws.onmessage = message => {
+        let object = JSON.parse(message.data);
+        model.isDrawing(object);
+    };
+
+</script>
+
+<div class="paint">
+    <header class="toolBar">
+        <span class="toolBar_logo">Paint Canvas</span>
+        <input type="range" class="toolBar_range" id="size" min="1" max="10" onchange="changeSize(event);">
+        <input type="color" id="color" value="#FFFF">
+    </header>
+    <canvas id="canvas" width="1280" height="720"></canvas>
+</div>
+
+</body>
+</html>
